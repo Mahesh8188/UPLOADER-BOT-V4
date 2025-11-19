@@ -4,6 +4,20 @@
 import os
 from plugins.config import Config
 from pyrogram import Client
+import threading
+from aiohttp import web
+
+async def health(request):
+    return web.Response(text="OK")
+
+def start_webserver():
+    app = web.Application()
+    app.router.add_get("/", health)
+    web.run_app(app, port=8080)
+
+# Start dummy webserver in background
+threading.Thread(target=start_webserver, daemon=True).start()
+
 
 if __name__ == "__main__":
 
